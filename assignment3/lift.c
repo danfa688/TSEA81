@@ -198,7 +198,7 @@ static int lift_ready_to_move(lift_type lift){
     }
     
     int lift_full = (n_passengers_in_lift(lift) == MAX_N_PASSENGERS);
-    return !(evacuation_complete && (boarding_complete || lift_full));
+    return (evacuation_complete && (boarding_complete || lift_full));
 
 }
 
@@ -210,7 +210,7 @@ void lift_has_arrived(lift_type lift)
 {
     pthread_mutex_lock(&lift->mutex);
     pthread_cond_broadcast(&lift->change);
-    while(lift_ready_to_move(lift)){
+    while(!lift_ready_to_move(lift)){
     	pthread_cond_wait(&lift->change,&lift->mutex);
     }
     pthread_mutex_unlock(&lift->mutex);
