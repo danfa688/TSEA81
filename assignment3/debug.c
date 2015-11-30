@@ -50,7 +50,12 @@ void debug_check_override(int id, int *from, int *to)
 		dbg.override[id] = 0;
 		*from = dbg.from[id];
 		*to = dbg.to[id];
+
 	}
+
+
+
+
 	pthread_mutex_unlock(&dbg.mutex);
 }
 
@@ -59,7 +64,7 @@ void debug_override(int id, int from, int to)
 	pthread_mutex_lock(&dbg.mutex);
 	dbg.override[id] = 1;
 	dbg.from[id] = from;
-	dbg.to[to] = to;
+	dbg.to[id] = to;
 	pthread_mutex_unlock(&dbg.mutex);
 }
 

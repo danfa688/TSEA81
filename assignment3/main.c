@@ -79,7 +79,9 @@ static void *passenger_thread(void *idptr)
 		// * Wait a little while
 		int from_floor = get_random_value(id, N_FLOORS-1);
 		int to_floor = get_random_value(id, N_FLOORS-1);
+
 		debug_check_override(id, &from_floor, &to_floor);
+
 		lift_travel(Lift, id, from_floor, to_floor);
 		usleep(5000000);
 	}
@@ -103,9 +105,9 @@ static void *user_thread(void *unused)
 			// message if too many passengers have been
 			// created. Make sure that each passenger gets
 			// a unique ID between 0 and MAX_N_PERSONS-1.
-			if(current_passenger_id < MAX_N_PERSONS){
-				pthread_create(&passenger_thread_handle[current_passenger_id],NULL, passenger_thread,(void *)&
-					current_passenger_id);
+			int temp_passenger_id = current_passenger_id;
+			if(temp_passenger_id < MAX_N_PERSONS){
+				pthread_create(&passenger_thread_handle[temp_passenger_id],NULL, passenger_thread,(void *) &temp_passenger_id);
 				current_passenger_id++;
 			}
 			else{
@@ -123,20 +125,14 @@ static void *user_thread(void *unused)
 			debug_pause();
 		}else if(!strcmp(message, "unpause")){
 			debug_unpause();
-		}else if(!strcmp(message, "test1")){
-			int i;
-			for(i=0; i<6; i++){
-				pthread_create(&passenger_thread_handle[i],NULL, passenger_thread,(void *)&
-					i);
-			}
-		}else if(!strcmp(message, "test2")){
+		}else if(!strcmp(message, "test")){
 
-			debug_override(0, 1, 4);
-			debug_override(1, 1, 4); 
-			debug_override(2, 1, 4); 
-			debug_override(3, 1, 4); 
-			debug_override(4, 1, 4); 
-			debug_override(5, 3, 4);   
+			debug_override(0, 0, 4);
+			debug_override(1, 0, 4); 
+			debug_override(2, 0, 4); 
+			debug_override(3, 0, 4); 
+			debug_override(4, 0, 4); 
+			debug_override(5, 2, 4);   
 
 		}else {
             		si_ui_show_error("unexpected message type"); 
