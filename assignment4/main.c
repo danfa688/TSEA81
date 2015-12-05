@@ -103,7 +103,6 @@ static void lift_process(void)
         			if (Lift->passengers_in_lift[i].to_floor == Lift->floor)
         			{
 					message_send((char *) &reply, sizeof(reply), QUEUE_FIRSTPERSON + Lift->passengers_in_lift[i].id ,0);
-					fprintf(stderr, "ID is: %d \n", Lift->passengers_in_lift[i].id);
     					Lift->passengers_in_lift[i].id = NO_ID; 
     					Lift->passengers_in_lift[i].to_floor = NO_FLOOR;
 					
@@ -112,9 +111,9 @@ static void lift_process(void)
 
 			//    Check if passengers want to enter elevator
                         //        Remove the passenger from the floor and into the elevator
-			for(i = 0; i < MAX_N_PASSENGERS; i++){
+			for(i = 0; i < MAX_N_PERSONS; i++){
 				person_data_type person = Lift->persons_to_enter[Lift->floor][i];
-        			if (person.id != NO_ID && (n_passengers_in_lift(Lift) < 5))
+        			if (person.id != NO_ID && (n_passengers_in_lift(Lift) < MAX_N_PASSENGERS))
         			{
 					
 					leave_floor(Lift, person.id, Lift->floor);
@@ -134,7 +133,11 @@ static void lift_process(void)
 			enter_floor(Lift, m->person_id, m->from_floor, m->to_floor);
 
 			break;
+		default:
+			fprintf(stderr, "Error: unkown message type sent!!!!! \n");
+		break;
 		}
+		
 	}
 	return;
 }
@@ -144,6 +147,7 @@ static void person_process(int id)
 	init_random();
 	char buf[4096];
 	struct lift_msg m;
+	//struct lift_msg *reply;
 	while(1){
 		// TODO:
 		//    Generate a to and from floor
@@ -163,8 +167,8 @@ static void person_process(int id)
 			fprintf(stderr, "Message too short\n");
 			continue;
 		}
-		
-		m = *(struct lift_msg *) buf;
+		//reply = (struct lift_msg *) buf;
+		// m = *(struct lift_msg *) buf;
 
 		usleep(5000000);
 	}

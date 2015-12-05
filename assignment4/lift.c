@@ -79,12 +79,11 @@ void lift_delete(lift_type lift)
 }
 
 
-/* --- monitor data type for lift and operations for create and delete END --- */
 
 
-/* --- functions related to lift task START --- */
 
-/* MONITOR function lift_next_floor: computes the floor to which the lift 
+
+/* function lift_next_floor: computes the floor to which the lift 
    shall travel. The parameter *change_direction indicates if the direction 
    shall be changed */
 void lift_next_floor(lift_type lift, int *next_floor, int *change_direction)
@@ -145,34 +144,6 @@ int n_passengers_in_lift(lift_type lift)
         }
     }
     return n_passengers; 
-}
-
-/* MONITOR function lift_has_arrived: shall be called by the lift task
-   when the lift has arrived at the next floor. This function indicates
-   to other tasks that the lift has arrived, and then waits until the lift
-   shall move again. */
-void lift_has_arrived(lift_type lift)
-{
-}
-
-/* --- functions related to lift task END --- */
-
-
-/* --- functions related to person task START --- */
-
-/* passenger_wait_for_lift: returns non-zero if the passenger shall
-   wait for the lift, otherwise returns zero */
-static int passenger_wait_for_lift(lift_type lift, int wait_floor)
-{
-    int waiting_ready =
-        /* the lift is not moving */ 
-        !lift->moving && 
-        /* and the lift is at wait_floor */ 
-        lift->floor == wait_floor && 
-        /* and the lift is not full */ 
-        n_passengers_in_lift(lift) < MAX_N_PASSENGERS; 
-
-    return !waiting_ready;
 }
 
 /* enter_floor: makes a person with id id stand at floor floor */ 
@@ -292,10 +263,6 @@ void leave_lift(lift_type lift, int id)
     lift->passengers_in_lift[lift_index].to_floor = NO_FLOOR;
 }
 
-/* MONITOR function lift_travel: performs a journey with the lift
-   starting at from_floor, and ending at to_floor */ 
-void lift_travel(lift_type lift, int id, int from_floor, int to_floor)
-{
-}
+
 
 /* --- functions related to person task END --- */
