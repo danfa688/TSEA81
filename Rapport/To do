@@ -1,0 +1,6 @@
+-Various sanity checks of pthreads and message queues. E.g., how long does it take to send a message from one process to another? How long does it take to send a broadcast on a condition variable to another thread? How about 40 threads? What about the performance of other synchronization primitives? (mutexes and semaphores?) Note that this data can be useful as a sanity check of your runtime if you are able to estimate roughly how many broadcasts or messages that will happen when you run your application.
+
+-How do your algorithms scale on machines with differing amounts of processors? (See below)
+
+-Modify one or both implementations so that one person is classified as a VIP (i.e., the implementation should try to ensure that a VIP passenger waiting on a particular floor will always board the elevator if there is space in the elevator). (See hints below for how a thread can change its own priority.)
+
