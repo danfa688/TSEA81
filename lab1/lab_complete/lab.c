@@ -184,5 +184,10 @@ int main(int argc,char **argv)
         // Dump output data which will be used by the analyze.m script
         dump_outdata();
         dump_sample_times();
+
+	// Lock memory to ensure no swapping is done.
+        if(munlockall()){
+                fprintf(stderr,"WARNING: Failed to unlock memory\n");
+        }
         return 0;
 }
