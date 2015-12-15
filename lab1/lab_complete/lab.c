@@ -79,7 +79,7 @@ void *sampletask(void *arg)
 
 	// Set our thread to real time priority
 	struct sched_param sp;
-	sp.sched_priority = 30;
+	sp.sched_priority = 7;
 	if(pthread_setschedparam(pthread_self(), SCHED_FIFO, &sp)){
 		fprintf(stderr,"WARNING: Failed to set stepper thread"
 			"to real-time priority\n");
@@ -99,6 +99,7 @@ void *sampletask(void *arg)
                 samplectr++;
                 if(samplectr == PROCESSING_INTERVAL){
                         samplectr = 0;
+			copy_buffer();
 			sem_post(&start_work);
                 }
 
@@ -122,7 +123,7 @@ void *doworktask(void *arg)
 {
 	// Set our thread to real time priority
 	struct sched_param sp;
-	sp.sched_priority = 15;
+	sp.sched_priority = 5;
 	if(pthread_setschedparam(pthread_self(), SCHED_FIFO, &sp)){
 		fprintf(stderr,"WARNING: Failed to set stepper thread"
 			"to real-time priority\n");
@@ -131,8 +132,7 @@ void *doworktask(void *arg)
 
 	int cont = 1;
 	while(cont){
-		sem_wait(&start_work);
-		copy_buffer();	
+		sem_wait(&start_work);	
 	       	do_work(work_buffer);
 		cont_work(&cont);
 	

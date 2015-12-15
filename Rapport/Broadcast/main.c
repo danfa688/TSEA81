@@ -62,10 +62,6 @@ static void *extra_thread(void *idptr)
 		record_time[id]=record_time[id]+timediff;
 		start_time[id] = 0;
 		pthread_mutex_unlock(&mutex);
-
-		
-
-
 	}
 
 	return NULL;
@@ -102,7 +98,7 @@ static void *main_thread(void *unused)
 		else{
 			fprintf(stderr, "Not all broadcast are done!\n");
 		}
-		usleep(2000);
+		usleep(3000);
 	}
 	
 

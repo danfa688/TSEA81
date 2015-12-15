@@ -9,6 +9,7 @@
 #include "si_ui.h"
 #include "messages.h"
 #include <sys/time.h>
+#include <unistd.h>
 
 #include "draw.h"
 
@@ -156,7 +157,9 @@ static void lift_process(void)
 }
 
 static void person_process(int id)
-{
+{	
+	
+
 	init_random();
 	char buf[4096];
 	struct lift_msg m;

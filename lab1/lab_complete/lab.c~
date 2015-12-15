@@ -79,7 +79,7 @@ void *sampletask(void *arg)
 
 	// Set our thread to real time priority
 	struct sched_param sp;
-	sp.sched_priority = 30;
+	sp.sched_priority = 7;
 	if(pthread_setschedparam(pthread_self(), SCHED_FIFO, &sp)){
 		fprintf(stderr,"WARNING: Failed to set stepper thread"
 			"to real-time priority\n");
@@ -122,7 +122,7 @@ void *doworktask(void *arg)
 {
 	// Set our thread to real time priority
 	struct sched_param sp;
-	sp.sched_priority = 15;
+	sp.sched_priority = 5;
 	if(pthread_setschedparam(pthread_self(), SCHED_FIFO, &sp)){
 		fprintf(stderr,"WARNING: Failed to set stepper thread"
 			"to real-time priority\n");
@@ -184,5 +184,10 @@ int main(int argc,char **argv)
         // Dump output data which will be used by the analyze.m script
         dump_outdata();
         dump_sample_times();
+
+	// Lock memory to ensure no swapping is done.
+        if(munlockall()){
+                fprintf(stderr,"WARNING: Failed to unlock memory\n");
+        }
         return 0;
 }

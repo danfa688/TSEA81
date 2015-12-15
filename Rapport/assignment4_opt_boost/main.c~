@@ -9,6 +9,7 @@
 #include "si_ui.h"
 #include "messages.h"
 #include <sys/time.h>
+#include <unistd.h>
 
 #include "draw.h"
 
@@ -16,7 +17,6 @@
 // involved in the application so that they can be killed when the
 // exit command is received.
 static pid_t lift_pid;
-static pid_t uidraw_pid;
 static pid_t liftmove_pid;
 static pid_t person_pid[MAX_N_PERSONS];
 
@@ -158,6 +158,14 @@ static void lift_process(void)
 
 static void person_process(int id)
 {
+	int incr = -10;
+	int ret;
+	if(nice(incr) == -1){
+		fprintf(stderr,"Can not set nice level!\n");
+	}
+	
+	
+
 	init_random();
 	char buf[4096];
 	struct lift_msg m;
@@ -254,7 +262,7 @@ void uicommand_process(void)
 		output[m->id]=m->time;
 		done[m->id]=1;
 
-		if(all_done(done)){
+		/*if(all_done(done)){
 			dump_outdata(output);
 			// The code below sends the SIGINT signal to
 			// all processes involved in this application
@@ -268,7 +276,7 @@ void uicommand_process(void)
 				}
 			}
 			exit(0);		
-		}
+		}*/
 
 	}
 }

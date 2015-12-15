@@ -15,16 +15,16 @@
 #define N_FLOORS 5
 
 /* maximum number of persons in the lift system */ 
-#define MAX_N_PERSONS 65  //MAX 71??
+#define MAX_N_PERSONS 10  //MAX 71??
 
 /* maximum number of passengers in lift */ 
 #define MAX_N_PASSENGERS 5
 
 
 /*maximum number of iterations to print out*/
-#define PLANNED_TRIPS 120
+#define PLANNED_TRIPS 80
 
-#define MAX_ITERATIONS 12000/PLANNED_TRIPS
+#define MAX_ITERATIONS 10000/PLANNED_TRIPS
 
 
 /* fig_end lift_h_defs */ 
@@ -45,7 +45,7 @@ struct lift_msg{
 };
 
 struct ui_msg{
-	int person_id;       // Specifies the person
+	int id;       // Specifies the person
 	int time;
 };
 

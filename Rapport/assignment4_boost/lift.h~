@@ -8,7 +8,7 @@
 #define N_FLOORS 5
 
 /* maximum number of persons in the lift system */ 
-#define MAX_N_PERSONS 10
+#define MAX_N_PERSONS 60
 
 /* maximum number of passengers in lift */ 
 #define MAX_N_PASSENGERS 5
@@ -19,6 +19,27 @@
 /* fig_end lift_h_defs */ 
 
 /* fig_begin person_data_type */ 
+typedef enum {LIFT_TRAVEL, // A travel message is sent to the list process when a person would
+	                   // like to make a lift travel
+	      LIFT_TRAVEL_DONE, // A travel done message is sent to a person process when a
+	                        // lift travel is finished
+	      LIFT_MOVE         // A move message is sent to the lift task when the lift shall move
+	                        // to the next floor
+} lift_msg_type; 
+
+struct lift_msg{
+	lift_msg_type type;  // Type of message
+	int person_id;       // Specifies the person
+	int from_floor;      // Specify source and destion for the LIFT_TRAVEL message.
+	int to_floor;
+};
+
+struct ui_msg{
+	int id;       // Specifies the person
+	int time;
+};
+
+
 /* data structure for person information */ 
 typedef struct
 {
